@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+/core
+
+# Test results and reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.local-browsers/
+
+# Local environment variables (Passwords, API keys)
+.env
+.env.*
+
+# System files
+.DS_Store
+Thumbs.db
