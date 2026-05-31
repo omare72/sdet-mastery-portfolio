@@ -1,20 +1,16 @@
-// @ts-check
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test("Verify successful navigation and search",async ({page})=>{
+  // 1. Navigate to a live, stable practice site
+  await page.goto("https://example.com");
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-  console.log("has title");//I added this line for testing purpose
-});
+  // 2. Assert (verify) that the page title is correct
+  await expect(page).toHaveTitle("Example Domain");
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  // 3. Find the 'More information' link using its role and click it  
+  const infoLink = page.getByRole('link', {name: 'Learn more'});
+  await infoLink.click();
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  // 4. Assert that the new page URL contains the word 'iana'
+  await expect(page).toHaveURL(/.*iana*./);
 });
