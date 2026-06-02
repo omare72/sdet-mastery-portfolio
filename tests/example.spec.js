@@ -1,15 +1,19 @@
-const { test, expect } = require('@playwright/test');
+const {test, expect} = require("@playwright/test");
 
-test("Verify successful navigation and search",async ({page})=>{
-  // 1. Navigate to a live, stable practice site
-  await page.goto("https://example.com");
-  // 2. Assert (verify) that the page title is correct
-  await expect(page).toHaveTitle("Example Domain");
-  
-  // 3. Find the 'More information' link using its role and click it  
-  const infoLink = page.getByRole('link', {name: 'Learn more'});
-  await infoLink.click();
+test("Verify successful login flow", async ({page})=>{
+    // 1. Navigate to a secure practice login portal
+    await page.goto("https://saucedemo.com");
+    // 2. Fill the username input field using its accessible label or selector
+    const usernameInput =  page.getByPlaceholder("Username");
+    await usernameInput.fill("standard_user");
+    // 3. Fill the password input field  
+    await page.getByPlaceholder('Password').fill("secret_sauce");
+    // 4. Click the login submit button using its text role
+    const submitBtn =  page.getByRole('button', {name:'Login'});
+    await submitBtn.click();
+    // 5. Assert that the login was successful by checking the header banner text
+    const title =  page.locator(".app_logo");
+    await expect(title).toBeVisible();
+    await expect(title).toHaveText('Swag Labs');
 
-  // 4. Assert that the new page URL contains the word 'iana'
-  await expect(page).toHaveURL(/.*iana*./);
-});
+})
