@@ -1,37 +1,40 @@
-const { Builder, Browser, until, By } = require("selenium-webdriver");
-const {expect} = require("chai");
+const { Builder, Browser, By, until } = require('selenium-webdriver');
+const { expect } = require('chai');
 
-describe("Selenium smoke test suite", function() {
-  this.timeout(20000);// Gives slow connections 20 seconds to load
+describe('Selenium Automation Suite', function () {
+  this.timeout(20000); 
   let driver;
 
-  //setup: this runs before the test starts
-  before(async function(){
+  before(async function () {
     driver = await new Builder().forBrowser(Browser.CHROME).build();
   });
 
-  // Cleanup: This runs AFTER the test finishes
- after(async function () {
-  if (driver) {
+  after(async function () {
+    if (driver) {
       await driver.quit();
     }
-  }); 
-
-  it("verify website title on Example.com", async function(){
-  // 1. Navigate to the website
-  await driver.get("https://Example.com");
-
-  // 2. Target Explicit Wait: Wait up to 5 seconds for the <h1> tag to be located
-  const headerElement = await driver.wait(until.elementLocated(By.css('h1')), 5000);
-
-
-  // 3. Extract the visible text from that element
-  const headerText = await headerElement.getText();
-
-    // 4. Assert that the header text matches exactly
-  expect(headerText).to.equal('Example Domain');
   });
 
-});
+  it('Verify successful login user flow on SauceLabs', async function () {
+    // 1. Navigate to the practice portal
+    await driver.get('https://www.saucedemo.com');
 
- 
+    // 2. Explicitly wait for the username field and fill it
+    const usernameInput = await driver.wait(until.elementLocated(By.id('user-name')), 5000);
+    await usernameInput.sendKeys('standard_user');
+
+    // 3. Locate and fill the password field
+    const passwordInput = await driver.findElement(By.id('password'));
+    await passwordInput.sendKeys('secret_sauce');
+
+    // 4. Click the login button
+    const loginButton = await driver.findElement(By.id('login-button'));
+    await loginButton.click();
+
+    // 5. Explicitly wait for the dashboard header to appear and assert text
+    const appHeader = await driver.wait(until.elementLocated(By.className('app_logo')), 5000);
+    const headerText = await appHeader.getText();
+    
+    expect(headerText).to.equal('Swag Labs');
+  });
+});
