@@ -1,5 +1,3 @@
-// TEAMMATE EDIT: Checking framework stability updates
-
 const { Builder, Browser, By, until } = require('selenium-webdriver');
 const { expect } = require('chai');
 
