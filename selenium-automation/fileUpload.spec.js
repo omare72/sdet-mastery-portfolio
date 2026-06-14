@@ -31,4 +31,46 @@ describe('File Upload Tests', function () {
 
         expect(confirmation).to.equal('testfile.txt');
     });
+    it('should display the correct filename after upload', async function () {
+        // Build absolute path to the test file
+        const filePath = path.resolve(__dirname, 'testfile.txt');
+
+        // Inject the file path directly into the input
+        await driver.findElement(By.id('file-upload')).sendKeys(filePath);
+
+        // Verify the filename appears in the input before uploading
+        const inputValue = await driver.findElement(By.id('file-upload')).getAttribute('value');
+        console.log('File selected:', inputValue);
+
+        // Click the upload button
+        await driver.findElement(By.id('file-submit')).click();
+
+        // Wait for confirmation
+        await driver.wait(until.elementLocated(By.id('uploaded-files')), 5000);
+        const confirmation = await driver.findElement(By.id('uploaded-files')).getText();
+
+        // Assert filename matches
+        expect(confirmation).to.include('testfile');
+    });
+    it('should upload a jpg file successfully', async function () {
+        // Build absolute path to the jpg file
+        const filePath = path.resolve(__dirname, 'testimage.jpg');
+
+        // Inject the file path directly into the input
+        await driver.findElement(By.id('file-upload')).sendKeys(filePath);
+
+        // Verify the filename appears in the input before uploading
+        const inputValue = await driver.findElement(By.id('file-upload')).getAttribute('value');
+        console.log('File selected:', inputValue);
+
+        // Click the upload button
+        await driver.findElement(By.id('file-submit')).click();
+
+        // Wait for confirmation
+        await driver.wait(until.elementLocated(By.id('uploaded-files')), 5000);
+        const confirmation = await driver.findElement(By.id('uploaded-files')).getText();
+
+        // Assert jpg filename appears
+        expect(confirmation).to.include('testimage.jpg');
+    });
 });
