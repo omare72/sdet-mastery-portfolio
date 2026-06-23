@@ -7,7 +7,7 @@ class LoginPage {
         this.passwordInput = '#password';
         this.loginButton = '#login-button';
         this.errorMessage = '[data-test="error"]';
-    }
+    } 
 
     // Methods
     async goto() {
