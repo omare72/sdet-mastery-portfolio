@@ -11,6 +11,7 @@ class ProductsPage {
         this.addToCartButton = By.css('.btn_inventory');
         this.sortDropdown = By.css('.product_sort_container');
         this.cartBadge = By.css('.shopping_cart_badge');
+        this.productDescription = By.css('.inventory_item_desc');
     }
 
     // Methods
@@ -18,6 +19,18 @@ class ProductsPage {
         const products = await this.driver.findElements(this.productContainer);
         return products.length;
     }
+    // returns all products by name
+    async getAllProductNames() {
+        const products = await this.driver.findElements(this.productContainer);
+        const productNames = [];
+        
+        for (let product of products) {
+            const name = await product.findElement(this.productName).getText();
+            productNames.push(name);
+        }
+        
+        return productNames;
+    }//getAllProductNames
 
     async getProductByName(productName) {
         const products = await this.driver.findElements(this.productContainer);
@@ -58,6 +71,18 @@ class ProductsPage {
         const firstProduct = await this.driver.findElement(this.productContainer);
         const priceText = await firstProduct.findElement(this.productPrice).getText();
         return priceText;
+    }
+
+    async getProductPrice(productName) {
+        const product = await this.getProductByName(productName);
+        const price = await product.findElement(this.productPrice).getText();
+        return price;
+    }
+
+    async getProductDescription(productName) {
+        const product = await this.getProductByName(productName);
+        const desc = await product.findElement(this.productDescription).getText();
+        return desc;
     }
 
     async getCartBadgeCount() {

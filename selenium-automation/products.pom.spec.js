@@ -28,7 +28,7 @@ describe('Products Page - POM Pattern', function () {
     });
 
     it('should display 6 products on the inventory page', async function () {
-        const count = await productsPage.getProductCount();
+        const count = await productsPage.getProductCount();        
         expect(count).to.equal(6);
     });
 
@@ -37,6 +37,15 @@ describe('Products Page - POM Pattern', function () {
         
         const badgeCount = await productsPage.getCartBadgeCount();
         expect(badgeCount).to.equal('1');
+    });
+
+    it('should display all product names', async function () {
+        const names = await productsPage.getAllProductNames();
+        console.log('Products:', names);
+        
+        expect(names).to.include('Sauce Labs Backpack');
+        expect(names).to.include('Sauce Labs Bike Light');
+        expect(names.length).to.equal(6);
     });
 
     it('should sort products by price and verify lowest price first', async function () {
