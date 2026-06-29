@@ -1,6 +1,6 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const { expect } = require('chai');
-const ProductsPage = require('../pages/selenium/ProductsPage');
+const ProductsPage = require('../../pages/selenium/ProductsPage');
 
 describe('Products Page - POM Pattern', function () {
     this.timeout(15000);

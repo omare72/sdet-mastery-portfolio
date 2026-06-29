@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const ProductsPage = require('../pages/playwright/ProductsPage');
+const ProductsPage = require('../../pages/playwright/ProductsPage');
 
 test.describe('Products Page - POM Pattern (Playwright)', () => {
 
